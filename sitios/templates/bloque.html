@@ -72,7 +72,7 @@
         <input type="text" id="search-input" class="form-control mt-3" placeholder="Buscar Sitio...">
         <div class="list-group mt-3" id="aulas-list">
             <!-- Aquí se mostrarán los resultados de búsqueda -->
-            {% for sitio in sitios %}
+            {% for sitio in sitio %}
             <div class="list-group-item list-group-item-action">
                 <button class="d-flex w-100 justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#sitio{{ sitio.id }}">
                     <h5 class="mb-1">{{ sitio.nombre }}</h5>
