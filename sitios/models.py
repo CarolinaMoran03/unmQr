@@ -49,7 +49,7 @@ class Sitio(models.Model):
     planta = models.ForeignKey('Planta', on_delete=models.CASCADE, default="", blank=False, null=True)
     descripcion = models.TextField('Descripción del Sitio', null=True, blank=True)
     aulas=models.TextField(null=True, blank=True)
-    nombre_encargado = models.CharField('Nombre del Encargado', max_length=100, blank=True)
+    nombre_director = models.CharField('Nombre del Encargado', max_length=100, blank=True)
     
     class Meta:
         verbose_name = 'Sitio'
