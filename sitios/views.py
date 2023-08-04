@@ -14,7 +14,7 @@ def bloque(request, bloque_id):
     return render(request, 'bloque.html', {'bloque': bloque, 'sitios': sitios })
 
 def listadoBloques(request):
-    bloques = Bloque.objects.all().order_by('id')
+    bloques = Bloque.objects.all()
     return render(request, 'listadoBloques.html', {'bloques': bloques})
 
 def resultados_busqueda(request):
