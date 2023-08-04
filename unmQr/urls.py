@@ -16,14 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from sitios.views import error_404_view
-from django.conf.urls import handler404
-
-
-handler404 = error_404_view
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('administrador.urls')),
     path('', include('sitios.urls'))
 ]
+
+urlpatterns += staticfiles_urlpatterns()

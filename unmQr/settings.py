@@ -23,13 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:    
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
 #ALLOWED_HOSTS = ['infoUNEMI.com', 'www.infoUNEMI.com', '127.0.0.1']
 
 # Application definition
@@ -40,20 +41,21 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "whitenoise.runserver_nostatic",
+    "django.contrib.staticfiles",
     'administrador',
     'sitios',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'unmQr.urls'
@@ -80,24 +82,21 @@ WSGI_APPLICATION = 'unmQr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import os
-from dj_database_url import parse as dburl
 
-# URL de conexión de PostgreSQL proporcionada
-default_dburl = 'postgres://infounemi_user:deHMZozfzDrRSNuAtZZVjUOIifOhZQ37@dpg-cj5jucgeba7s73ed2c3g-a.oregon-postgres.render.com/infounemi'
+import dj_database_url
 
-# Parsear la URL de conexión a una configuración de base de datos
-db_config = dburl(default_dburl)
+    # URL de conexión de PostgreSQL proporcionada
+    #default_dburl = 'postgres://infounemi_user:deHMZozfzDrRSNuAtZZVjUOIifOhZQ37@dpg-cj5jucgeba7s73ed2c3g-a.oregon-postgres.render.com/infounemi'
+
+    # Parsear la URL de conexión a una configuración de base de datos
+    #db_config = dburl(default_dburl)
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': db_config['NAME'],
-        'USER': db_config['USER'],
-        'PASSWORD': db_config['PASSWORD'],
-        'HOST': db_config['HOST'],
-        'PORT': db_config['PORT'],
-    }
+    'default': dj_database_url.config(
+        # Feel free to alter this value to suit your needs.        
+        default='postgres://infounemi_gdsr_user:m7e2obcYWsSo9Y4dChowmzsd3Mv0IAiq@dpg-cj66av97120s738vlra0-a.oregon-postgres.render.com/infounemi_gdsr',        
+        conn_max_age=600    
+    )
 }
 
 # Password validation
@@ -137,13 +136,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# Following settings only make sense on production and may break development environments.
-if not DEBUG:    # Tell Django to copy statics to the `staticfiles` directory
-    # in your application directory on Render.
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    # Turn on WhiteNoise storage backend that takes care of compressing static files
-    # and creating unique names for each version so they can safely be cached forever.
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -160,5 +154,3 @@ EMAIL_HOST_PASSWORD = 'ggnwwwdaeuixrcek'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'sitios/media')
 # URL para acceder a los archivos multimedia en tu proyecto
 MEDIA_URL = '/media/'
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
