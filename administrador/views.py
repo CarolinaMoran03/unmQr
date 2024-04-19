@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from sitios.models import Bloque, Sitio
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.core.exceptions import ValidationError
 
 
 # Create your views here.
@@ -63,8 +64,9 @@ def ver_sitios(request, bloque_id):
 def editar_bloque(request, bloque_id):
     bloque = get_object_or_404(Bloque, id=bloque_id)
     if request.method == 'POST':
-        form = BloqueForm(request.POST, instance=bloque)
+        form = BloqueForm(request.POST, request.FILES, instance=bloque)
         if form.is_valid():
+            # Save the form and handle the image
             form.save()
             return redirect('administrador')
     else:

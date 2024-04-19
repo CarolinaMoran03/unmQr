@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,18 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+SECRET_KEY = 'django-insecure-v0%*wor#ne37(32(y293-2xw0ciu!_+g68#0trf*3(czkqpwgd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False 
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:    
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
-
-#ALLOWED_HOSTS = ['infoUNEMI.com', 'www.infoUNEMI.com', '127.0.0.1']
 
 # Application definition
 
@@ -41,15 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    "whitenoise.runserver_nostatic",
-    "django.contrib.staticfiles",
+    'django.contrib.staticfiles',
     'administrador',
     'sitios',
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,22 +76,13 @@ WSGI_APPLICATION = 'unmQr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
-import dj_database_url
-
-    # URL de conexión de PostgreSQL proporcionada
-    #default_dburl = 'postgres://infounemi_user:deHMZozfzDrRSNuAtZZVjUOIifOhZQ37@dpg-cj5jucgeba7s73ed2c3g-a.oregon-postgres.render.com/infounemi'
-
-    # Parsear la URL de conexión a una configuración de base de datos
-    #db_config = dburl(default_dburl)
-
 DATABASES = {
-    'default': dj_database_url.config(
-        # Feel free to alter this value to suit your needs.        
-        default='postgres://infounemi_gdsr_user:m7e2obcYWsSo9Y4dChowmzsd3Mv0IAiq@dpg-cj66av97120s738vlra0-a.oregon-postgres.render.com/infounemi_gdsr',        
-        conn_max_age=600    
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -136,8 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
