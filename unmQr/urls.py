@@ -20,8 +20,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', include('administrador.urls')),  # Agregar esta línea para manejar /login
     path('', include('administrador.urls')),
-    path('', include('sitios.urls'))
+    path('', include('sitios.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
