@@ -73,18 +73,6 @@ def editar_bloque(request, bloque_id):
     return render(request, 'editar_bloque.html', {'form': form})
 
 @login_required
-def editar_bloque(request, bloque_id):
-    bloque = get_object_or_404(Bloque, id=bloque_id)
-    if request.method == 'POST':
-        form = BloqueForm(request.POST, request.FILES, instance=bloque)
-        if form.is_valid():
-            form.save()
-            return redirect('administrador')
-    else:
-        form = BloqueForm(instance=bloque)
-    return render(request, 'editar_bloque.html', {'form': form})
-
-@login_required
 def editar_sitio(request, sitio_id):
     sitio = get_object_or_404(Sitio, id=sitio_id)
 
